@@ -1,0 +1,53 @@
+.App {
+    padding: 5rem 0;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.Form {
+    height: 3rem;
+    width: 85vw;
+    max-width: 960px;
+    display: flex;
+    align-items: flex-start;
+    border-bottom: 1px solid rgb(177, 177, 177);
+    &:hover,
+    &:active {
+        border-bottom: 1px solid rgb(128, 128, 128);
+    }
+    input {
+        all: unset;
+        width: 100%;
+        font-size: 2rem;
+        font-weight: 500;
+    }
+    .del-icon {
+        all: unset;
+        margin-left: .5em;
+        z-index: 999;
+        height: 2.5rem;
+        cursor: pointer;
+        // -webkit-box-shadow: -.6em 0 .2em -.3em white;
+        // -moz-box-shadow: 0 8px -2rem 2rem red;
+        // box-shadow: 0 8px -2rem 2rem red;
+        svg {
+            line {
+                stroke: rgb(177, 177, 177);
+                stroke-width: 1px;
+            }
+            &:hover {
+                line {
+                    stroke: rgb(128, 128, 128);
+                }
+            }
+        }
+    }
+}
+
+.content-container {
+    width: 85vw;
+    height: 100%;
+}
