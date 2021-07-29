@@ -1,3 +1,6 @@
+$secondary-1: rgb(128, 128, 128);
+$secondary-2: rgb(177, 177, 177);
+
 .App {
     padding: 5rem 0;
     height: 100vh;
@@ -13,16 +16,19 @@
     max-width: 960px;
     display: flex;
     align-items: flex-start;
-    border-bottom: 1px solid rgb(177, 177, 177);
+    border-bottom: 1px solid $secondary-2;
     &:hover,
     &:active {
-        border-bottom: 1px solid rgb(128, 128, 128);
+        border-bottom: 1px solid $secondary-1;
     }
     input {
         all: unset;
         width: 100%;
         font-size: 2rem;
         font-weight: 500;
+        &::placeholder {
+            color: $secondary-2;
+        }
     }
     .del-icon {
         all: unset;
