@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import './App.scss';
 import axios, { CancelToken } from 'axios';
 
@@ -9,6 +9,20 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [hasMore, setHasMore] = useState(false);
+  const observer = useRef();
+  const lastBookRef = useCallback(el => {
+    // prevent calling API constantly
+    if (isLoading) return;
+
+    // disconnect previous observer
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(entries => {
+      if (entries[0].isIntersecting && hasMore) {
+        setPageNumber(prevPage => prevPage + 1);
+      }
+    })
+    if (el) observer.current.observe(el);
+  }, [isLoading, hasMore]);
 
   useEffect(() => {
     setBooks([]);
@@ -34,7 +48,7 @@ export default function App() {
         cancelToken: new CancelToken(token => cancel = token)
       }).then(res => {
         setBooks(prevBooks => {
-          const appendNewBooks = [...res.data.docs.map(book => {
+          const appendNewBooks = [...prevBooks, ...res.data.docs.map(book => {
             return {
               title: book.title,
               author: [book.author_name]
@@ -65,28 +79,26 @@ export default function App() {
         queryState={[query, setQuery]} 
         pageNumberState={[pageNumber, setPageNumber]}
       />
-      {/* {books.map(book => {
-        return (
-          <div>
-            <h4>{book.title}</h4>
-            <p>{book.author}</p>
-          </div>
-        )
-      })} */}
-      {isLoading && <p>loading...</p>}
-      {isError && <p>error</p>}
       <div className="content-container">
         {books.map((book, i) => {
-          return (
-            <div key={i}>
-              <h4>{book.title}</h4>
-              <p>{book.author}</p>
-              {/* {book.author.map(name => {
-                return <p>{name}</p>
-              })} */}
-            </div>
-          )
+          if (books.length === i + 1) {
+            return (
+              <div ref={lastBookRef} key={i}>
+                <h4>{book.title}</h4>
+                <p>{book.author}</p>
+              </div>
+            )
+          } else {
+            return (
+              <div key={i}>
+                <h4>{book.title}</h4>
+                <p>{book.author}</p>
+              </div>
+            )
+          }
         })}
+        {isLoading && <p>loading...</p>}
+        {isError && <p>error</p>}
       </div>
     </div>
   );
