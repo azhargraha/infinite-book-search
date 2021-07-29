@@ -1,7 +1,14 @@
 $secondary-1: rgb(128, 128, 128);
 $secondary-2: rgb(177, 177, 177);
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 .App {
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
     padding: 5rem 0;
     height: 100vh;
     width: 100%;
@@ -55,5 +62,5 @@ $secondary-2: rgb(177, 177, 177);
 
 .content-container {
     width: 85vw;
-    height: 100%;
+    max-width: 960px;
 }
