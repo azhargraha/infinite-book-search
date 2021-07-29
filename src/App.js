@@ -37,7 +37,7 @@ export default function App() {
           const appendNewBooks = [...res.data.docs.map(book => {
             return {
               title: book.title,
-              author: book.author_name
+              author: [book.author_name]
             }
           })];
           return appendNewBooks;
@@ -55,7 +55,7 @@ export default function App() {
     }
 
     return () => {
-      cancel && cancel();
+      if (cancel) cancel();
     };
   }, [query, pageNumber]);
 
@@ -73,19 +73,21 @@ export default function App() {
           </div>
         )
       })} */}
-      {isLoading && <p>loading jing...</p>}
-      {isError && <p>error jing...</p>}
+      {isLoading && <p>loading...</p>}
+      {isError && <p>error</p>}
       <div className="content-container">
-        {books.map(book => {
+        {books.map((book, i) => {
           return (
-            <div>
+            <div key={i}>
               <h4>{book.title}</h4>
               <p>{book.author}</p>
+              {/* {book.author.map(name => {
+                return <p>{name}</p>
+              })} */}
             </div>
           )
         })}
       </div>
-      {}
     </div>
   );
 };
